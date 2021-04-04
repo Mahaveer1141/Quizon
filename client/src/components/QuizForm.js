@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./QuizForm.css";
 
 function QuizForm() {
   const [inputList, setInputList] = useState([{ firstName: "", lastName: "" }]);
@@ -24,8 +25,28 @@ function QuizForm() {
   };
 
   return (
-    <div className="App">
-      {inputList.map((x, i) => {
+    <div className="upper">
+      <div className="main-div">
+        <h3 style={{ color: "white" }}>Your id: 45q532</h3>
+        <div>
+          <div className="q-box">
+            <input placeholder="Enter question" />
+            <input placeholder="Option A" />
+            <input placeholder="Option B" />
+            <input placeholder="Option C" />
+            <input placeholder="Option D" />
+            <input placeholder="Enter value of correct option" />
+            <button className="btn btn-danger">Remove</button>
+          </div>
+          <button
+            style={{ marginTop: "1rem", float: "right" }}
+            className="btn btn-primary"
+          >
+            Add
+          </button>
+        </div>
+      </div>
+      {/* {inputList.map((x, i) => {
         return (
           <div className="box">
             <input
@@ -54,7 +75,7 @@ function QuizForm() {
           </div>
         );
       })}
-      <div style={{ marginTop: 20 }}>{JSON.stringify(inputList)}</div>
+      <div style={{ marginTop: 20 }}>{JSON.stringify(inputList)}</div> */}
     </div>
   );
 }

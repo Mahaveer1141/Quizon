@@ -1,0 +1,42 @@
+.upper {
+  background-color: rgb(27, 27, 27);
+  margin-top: 5rem;
+  min-height: 100vh;
+}
+
+.main-div {
+  margin-top: 1rem;
+  text-align: center;
+  margin-left: 27%;
+  margin-right: 27%;
+  padding-bottom: 10rem;
+}
+
+.q-box {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 2rem 1rem 2rem;
+  background-color: #e5e5e5;
+  min-height: 4rem;
+  border-radius: 30px;
+}
+
+input {
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  border: solid #fff 1px;
+}
+
+@media screen and (max-width: 500px) {
+  .main-div {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+}
+
+.btn:focus {
+  outline: none;
+  box-shadow: none;
+}

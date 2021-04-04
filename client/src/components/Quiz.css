@@ -66,6 +66,11 @@
   background-color: antiquewhite;
 }
 
+.click:focus {
+  outline: none;
+  box-shadow: none;
+}
+
 @media screen and (max-width: 500px) {
   .main-area {
     margin-left: 5%;
