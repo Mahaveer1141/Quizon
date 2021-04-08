@@ -12,6 +12,7 @@ function Login() {
               </label>
               <div class="input-con">
                 <input
+                  required="true"
                   className="input-text"
                   type="text"
                   placeholder="Username"
@@ -19,6 +20,7 @@ function Login() {
               </div>
               <div class="input-con">
                 <input
+                  required="true"
                   className="input-text"
                   type="password"
                   placeholder="Password"

@@ -68,7 +68,7 @@
 
 .click:focus {
   outline: none;
-  box-shadow: none;
+  box-shadow: 3px 3px 10px darkgray;
 }
 
 @media screen and (max-width: 500px) {

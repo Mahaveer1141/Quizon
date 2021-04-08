@@ -6,26 +6,26 @@ import Feature from "./components/FeaturComponent";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Quiz from "./components/Quiz";
-import QuizForm from "./components/QuizForm";
+// import QuizForm from "./components/QuizForm";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div>
-      <Navbar />
-      <QuizForm />
-    </div>
-    // <Router>
-    //   <div>
-    //     <Navbar />
-    //     <Switch>
-    //       <Route path="/" exact component={Home} />
-    //       <Route path="/login" component={Login} />
-    //       <Route path="/register" component={Register} />
-    //       <Route path="/quiz" component={Quiz} />
-    //     </Switch>
-    //   </div>
-    // </Router>
+    // <div>
+    //   <Navbar />
+    //   <QuizForm />
+    // </div>
+    <Router>
+      <div>
+        <Navbar />
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+          <Route path="/quiz" component={Quiz} />
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
