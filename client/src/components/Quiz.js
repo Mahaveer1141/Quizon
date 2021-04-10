@@ -21,25 +21,32 @@ function Quiz() {
     };
   }, [index, score, completed, countTimer]);
 
+  window.onbeforeunload = function (e) {
+    window.onunload = function () {
+      window.localStorage.clear();
+    };
+    return undefined;
+  };
+
   const [questions, setQuestions] = useState([
     {
       que: "who is ceo of tesla",
       options: [
         { val: "Elon Musk", isCorrect: false },
-        { val: "Hiren Bhal", isCorrect: false },
+        { val: "Jeff Dean", isCorrect: false },
         { val: "Bill gates", isCorrect: false },
-        { val: "Motherfucker", isCorrect: true },
+        { val: "No one", isCorrect: true },
       ],
-      ans: "Motherfucker",
+      ans: "Elon Musk",
       res: "No Response",
     },
     {
-      que: "what is abhishek",
+      que: "what is format",
       options: [
-        { val: "Gandu", isCorrect: false },
-        { val: "Chutiya", isCorrect: false },
-        { val: "Lodu", isCorrect: false },
-        { val: "1 se jyada baap ki aulad", isCorrect: true },
+        { val: "format", isCorrect: false },
+        { val: "format", isCorrect: false },
+        { val: "format", isCorrect: false },
+        { val: "format", isCorrect: true },
       ],
       ans: "1 se jyada baap ki aulad",
       res: "No Response",
@@ -59,7 +66,7 @@ function Quiz() {
       que: "what is function",
       options: [
         { val: "Method", isCorrect: true },
-        { val: "Fuck off", isCorrect: false },
+        { val: "No", isCorrect: false },
         { val: "Dont know what to write", isCorrect: false },
         { val: "Shut up", isCorrect: false },
       ],
@@ -70,13 +77,13 @@ function Quiz() {
 
   useEffect(() => {
     setTimeout(() => {
-      if (countTimer != 0) {
+      if (countTimer !== 0) {
         setcountTimer(countTimer - 1);
       } else {
-        if (index != questions.length - 1) {
+        if (index !== questions.length - 1) {
           setIndex(index + 1);
           setcountTimer(10);
-        } else if (index == questions.length - 1) {
+        } else if (index === questions.length - 1) {
           setCompleted(completed + 1);
         }
       }
@@ -93,11 +100,11 @@ function Quiz() {
       setScore(score + 1);
     }
 
-    if (index != questions.length - 1) {
+    if (index !== questions.length - 1) {
       setIndex(index + 1);
       countTimer = 10;
       setcountTimer((prev) => (prev = countTimer));
-    } else if (index == questions.length - 1) {
+    } else if (index === questions.length - 1) {
       setCompleted(completed + 1);
     }
   };

@@ -2,7 +2,7 @@ import "../App.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Alert, Button } from "react-bootstrap";
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 function Register() {
   const [name, setName] = useState("");
@@ -10,19 +10,27 @@ function Register() {
   const [confirmPass, setConfirmPass] = useState("");
   const [user, setUser] = useState({});
   const [error, setError] = useState([]);
+  const [redirect, setRedirect] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
-    console.log("rendered");
-    console.log(user);
+    axios.post("http://localhost:5000/register", user).then((res) => {
+      if (res.data.errors) {
+        setError(res.data.errors);
+      } else {
+        setRedirect(true);
+        setTimeout(() => {
+          history.push("/login");
+        }, 3000);
+      }
+    });
   }, [user]);
 
   const handleSubmit = (e) => {
-    if (password != confirmPass) {
-      setError([...error, "Password and Confirm password doesn't match"]);
-    }
     const newUser = {
       username: name,
       password: password,
+      confirmPass: confirmPass,
     };
     setUser(newUser);
     e.preventDefault();
@@ -41,10 +49,32 @@ function Register() {
                 onClose={() => setShow(false)}
                 dismissible
               >
-                <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
-                {error.map((item) => (
-                  <p>{item}</p>
-                ))}
+                {error.map((item) => item)}
+              </Alert>
+            </div>
+          ) : null}
+        </>
+      );
+    } else {
+      setError([]);
+    }
+    return null;
+  }
+
+  function AlertSuccess() {
+    const [show, setShow] = useState(true);
+
+    if (show) {
+      return (
+        <>
+          {redirect ? (
+            <div style={{ margin: "5% 9% 0 9%" }}>
+              <Alert
+                variant="success"
+                onClose={() => setShow(false)}
+                dismissible
+              >
+                Registered successfully. You are been redirected to Login page.
               </Alert>
             </div>
           ) : null}
@@ -59,6 +89,7 @@ function Register() {
       <div>
         <div className="bg-overlay1 d-flex flex-column justify-content-center align-items-center">
           <div className="login-box">
+            <AlertSuccess />
             <AlertDismissibleExample />
             <div className="form-div">
               <form onSubmit={handleSubmit}>
@@ -114,7 +145,7 @@ function Register() {
               <p style={{ fontSize: "1rem" }}>
                 Already have and account?{" "}
                 <span>
-                  <a href="/register">Login</a>
+                  <a href="/login">Login</a>
                 </span>
               </p>
             </div>

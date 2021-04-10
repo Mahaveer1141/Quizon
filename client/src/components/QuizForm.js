@@ -1,8 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./QuizForm.css";
+import { useHistory } from "react-router-dom";
 
-function QuizForm() {
-  const [inputList, setInputList] = useState([{ firstName: "", lastName: "" }]);
+const QuizForm = () => {
+  let intialList = JSON.parse(window.localStorage.getItem("list")) || [
+    {
+      Question: "",
+      optionA: "",
+      optionB: "",
+      optionC: "",
+      optionD: "",
+      correctAns: "",
+    },
+  ];
+
+  let intialTime = Number(window.localStorage.getItem("time") || 1);
+
+  const [inputList, setInputList] = useState(intialList);
+  const [time, setTime] = useState(intialTime);
+
+  useEffect(() => {
+    window.localStorage.setItem("list", JSON.stringify(inputList));
+    window.localStorage.setItem("time", time);
+  });
 
   // handle input change
   const handleInputChange = (e, index) => {
@@ -21,63 +41,129 @@ function QuizForm() {
 
   // handle click event of the Add button
   const handleAddClick = () => {
-    setInputList([...inputList, { firstName: "", lastName: "" }]);
+    setInputList([
+      ...inputList,
+      {
+        Question: "",
+        optionA: "",
+        optionB: "",
+        optionC: "",
+        optionD: "",
+        correctAns: "",
+      },
+    ]);
+  };
+
+  const history = useHistory();
+  const onSubmit = () => {
+    let a = {
+      time: time,
+      info: inputList,
+    };
+    // setTimeout(() => {
+    //   history.push("/");
+    // }, 1000);
+    // console.log("hello");
   };
 
   return (
-    <div className="upper">
-      <div className="main-div">
-        <h3 style={{ color: "white" }}>Your id: 45q532</h3>
-        <div>
-          <div className="q-box">
-            <input placeholder="Enter question" />
-            <input placeholder="Option A" />
-            <input placeholder="Option B" />
-            <input placeholder="Option C" />
-            <input placeholder="Option D" />
-            <input placeholder="Enter value of correct option" />
-            <button className="btn btn-danger">Remove</button>
+    <>
+      <div className="upper">
+        <div className="main-div">
+          <h3 style={{ color: "white" }}>Your id: 45q532</h3>
+          <div className="q-box1">
+            <div>
+              <label style={{ fontWeight: "bold" }}>
+                Enter time alloted to per question in seconds
+              </label>
+              <input
+                type="number"
+                value={time}
+                onChange={(e) => setTime(e.target.value)}
+                className="take-info1"
+                name="Question"
+                placeholder="Enter time"
+              />
+            </div>
           </div>
+
+          {inputList.map((x, i) => (
+            <div>
+              <div className="q-box">
+                <input
+                  className="take-info"
+                  name="Question"
+                  value={x.Question}
+                  onChange={(e) => handleInputChange(e, i)}
+                  placeholder="Enter question"
+                />
+                <input
+                  className="take-info"
+                  name="optionA"
+                  value={x.optionA}
+                  onChange={(e) => handleInputChange(e, i)}
+                  placeholder="Option A"
+                />
+                <input
+                  className="take-info"
+                  name="optionB"
+                  value={x.optionB}
+                  onChange={(e) => handleInputChange(e, i)}
+                  placeholder="Option B"
+                />
+                <input
+                  className="take-info"
+                  name="optionC"
+                  value={x.optionC}
+                  onChange={(e) => handleInputChange(e, i)}
+                  placeholder="Option C"
+                />
+                <input
+                  className="take-info"
+                  name="optionD"
+                  value={x.optionD}
+                  onChange={(e) => handleInputChange(e, i)}
+                  placeholder="Option D"
+                />
+                <input
+                  className="take-info"
+                  name="correctAns"
+                  value={x.correctAns}
+                  onChange={(e) => handleInputChange(e, i)}
+                  placeholder="Correct Ans"
+                />
+
+                {inputList.length !== 1 && (
+                  <button
+                    onClick={() => handleRemoveClick(i)}
+                    className="btn btn-danger"
+                  >
+                    Remove
+                  </button>
+                )}
+                {inputList.length - 1 === i && (
+                  <button
+                    onClick={handleAddClick}
+                    style={{ marginTop: "1rem", float: "right" }}
+                    className="btn btn-primary"
+                  >
+                    Add
+                  </button>
+                )}
+              </div>
+            </div>
+          ))}
           <button
-            style={{ marginTop: "1rem", float: "right" }}
-            className="btn btn-primary"
+            onClick={onSubmit}
+            style={{ marginTop: "1rem" }}
+            className="btn btn-success"
           >
-            Add
+            Submit
           </button>
         </div>
       </div>
-      {/* {inputList.map((x, i) => {
-        return (
-          <div className="box">
-            <input
-              name="firstName"
-              placeholder="Enter First Name"
-              value={x.firstName}
-              onChange={(e) => handleInputChange(e, i)}
-            />
-            <input
-              className="ml10"
-              name="lastName"
-              placeholder="Enter Last Name"
-              value={x.lastName}
-              onChange={(e) => handleInputChange(e, i)}
-            />
-            <div className="btn-box">
-              {inputList.length !== 1 && (
-                <button className="mr10" onClick={() => handleRemoveClick(i)}>
-                  Remove
-                </button>
-              )}
-              {inputList.length - 1 === i && (
-                <button onClick={handleAddClick}>Add</button>
-              )}
-            </div>
-          </div>
-        );
-      })}
-      <div style={{ marginTop: 20 }}>{JSON.stringify(inputList)}</div> */}
-    </div>
+    </>
   );
-}
+};
 
 export default QuizForm;

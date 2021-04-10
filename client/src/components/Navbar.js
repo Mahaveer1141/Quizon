@@ -4,11 +4,16 @@ import { useState } from "react";
 
 function Nvbar() {
   const [showCollapsedMenu, setCollapseMenu] = useState(false);
+  const [showDropdownMenu, setShowDropdownMenu] = useState(false);
   const toggleMenu = () => {
     setCollapseMenu(() => !showCollapsedMenu);
   };
+  const dropdowneMenu = () => {
+    setShowDropdownMenu(() => !showDropdownMenu);
+  };
 
   const show = showCollapsedMenu ? "show" : "";
+  const showDropdown = showDropdownMenu ? "show" : "";
 
   return (
     <div>
@@ -17,6 +22,7 @@ function Nvbar() {
           <a className="navbar-brand" style={{ fontSize: "2rem" }} href="/">
             Quizon
           </a>
+
           <button
             onClick={toggleMenu}
             className="navbar-toggler"
@@ -53,3 +59,37 @@ function Nvbar() {
 }
 
 export default Nvbar;
+
+{
+  /* <ul className="navbar-nav ml-lg-auto">
+  <li className="nav-item dropdown">
+    <a
+      onClick={dropdowneMenu}
+      className="nav-link dropdown-toggle"
+      href="#"
+      id="navbarDropdown"
+      role="button"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+    >
+      Mahaveer
+    </a>
+    <div
+      className={"dropdown-menu " + showDropdown}
+      aria-labelledby="navbarDropdown"
+    >
+      <a className="dropdown-item" href="#">
+        Action
+      </a>
+      <a className="dropdown-item" href="#">
+        Another action
+      </a>
+      <div className="dropdown-divider"></div>
+      <a className="dropdown-item" href="#">
+        Logout
+      </a>
+    </div>
+  </li>
+</ul> */
+}
