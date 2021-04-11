@@ -46,7 +46,7 @@ function Feature() {
               </p>
               <a
                 style={{ color: "red" }}
-                href="#home"
+                href="/create_quiz"
                 className="btn custom-btn bg-color mt-3"
                 data-aos="fade-up"
                 data-aos-delay="300"
@@ -65,7 +65,7 @@ function Feature() {
               </p>
               <a
                 style={{ color: "red" }}
-                href="#home"
+                href="/join_quiz"
                 className="btn custom-btn bg-color mt-3"
                 data-aos="fade-up"
                 data-aos-delay="300"

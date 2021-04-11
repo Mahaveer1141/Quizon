@@ -17,10 +17,16 @@ function Login() {
       if (res.data.errors) {
         setError(res.data.errors);
       } else {
+        window.localStorage.setItem("token", res.data.accessToken);
+        window.localStorage.setItem(
+          "CurrentUser",
+          JSON.stringify(res.data.user)
+        );
+        window.localStorage.setItem("isAuth", true);
         setRedirect(true);
         setTimeout(() => {
           history.push("/");
-        }, 2000);
+        }, 1000);
       }
     });
   }, [user]);
@@ -44,8 +50,6 @@ function Login() {
           ) : null}
         </>
       );
-    } else {
-      setError([]);
     }
     return null;
   }
@@ -86,7 +90,6 @@ function Login() {
     <div>
       <div className="bg-overlay1 d-flex flex-column justify-content-center align-items-center">
         <div className="login-box">
-          {redirect ? <Redirect to="/" /> : null}
           <AlertDismissibleFail />
           <AlertDismissibleSuccess />
           <div className="form-div">
@@ -94,7 +97,7 @@ function Login() {
               <label style={{ fontSize: "2rem", fontWeight: "bolder" }}>
                 Login
               </label>
-              <div class="input-con">
+              <div className="input-con">
                 <input
                   onChange={(event) => {
                     setName(event.target.value);

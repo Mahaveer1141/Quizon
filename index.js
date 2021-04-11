@@ -26,7 +26,7 @@ let currentUser = {};
 var userSchema = new mongoose.Schema({
   username: { type: String },
   password: { type: String },
-  Quiz: [
+  Quizs: [
     {
       time: Number,
       info: [
@@ -47,6 +47,22 @@ var User = mongoose.model("users", userSchema);
 
 app.get("/", (req, res) => {
   res.json({ hello: "hello" });
+});
+
+app.get("/quiz/:id", (req, res) => {
+  let id = req.params.id;
+  User.find().then((users) => {
+    for (let i = 0; i < users.length; i++) {
+      let b = users[i].Quizs;
+      for (let j = 0; j < users[i].Quizs.length; j++) {
+        if (b[j].id === id) {
+          console.log(b[j]);
+          res.json(b[j]);
+        }
+      }
+    }
+    res.json({ err: "key is not valid" });
+  });
 });
 
 app.post("/register", (req, res) => {
@@ -124,7 +140,7 @@ app.post("/login", (req, res) => {
               { expiresIn: "10d" }
             );
             currentUser = user;
-            res.json({ accessToken: accessToken });
+            res.json({ user: user, accessToken: accessToken });
           }
         }
       });
@@ -134,37 +150,40 @@ app.post("/login", (req, res) => {
 
 app.post("/create_quiz", authenticateToken, (req, res) => {
   let quiz_list = req.body;
-  let errors = [];
-  if (quiz_list.time < 5) {
-    errors.push("time must be more than 5 seconds");
-  }
-  for (let i = 0; i < quiz_list.info.length; i++) {
-    if (
-      quiz_list.info[i].Question.trim() === "" ||
-      quiz_list.info[i].optionA.trim() === "" ||
-      quiz_list.info[i].optionB.trim() === "" ||
-      quiz_list.info[i].optionC.trim() === "" ||
-      quiz_list.info[i].optionD.trim() === "" ||
-      quiz_list.info[i].corrAns.trim() === ""
-    ) {
-      errors.push("Enter all details correctly");
+  if (quiz_list.info !== undefined) {
+    console.log(quiz_list);
+    let errors = [];
+    if (quiz_list.time < 5) {
+      errors.push("time must be more than 5 seconds.");
     }
-  }
-  if (errors.length > 0) {
-    res.json({
-      errors: errors,
+    for (let i = 0; i < quiz_list.info.length; i++) {
+      if (
+        quiz_list.info[i].Question.trim() === "" ||
+        quiz_list.info[i].optionA.trim() === "" ||
+        quiz_list.info[i].optionB.trim() === "" ||
+        quiz_list.info[i].optionC.trim() === "" ||
+        quiz_list.info[i].optionD.trim() === "" ||
+        quiz_list.info[i].correctAns.trim() === ""
+      ) {
+        errors.push("Enter all details correctly\n");
+      }
+    }
+    if (errors.length > 0) {
+      res.json({
+        errors: errors,
+      });
+    }
+
+    User.findOne({ username: currentUser.username }).then((user) => {
+      user.Quizs.push(quiz_list);
+      user
+        .save()
+        .then((user) => {
+          res.json(user);
+        })
+        .catch((err) => console.log(err));
     });
   }
-
-  User.findOne({ username: currentUser.username }).then((user) => {
-    user.Quiz.push(quiz_list);
-    user
-      .save()
-      .then((user) => {
-        res.json(user);
-      })
-      .catch((err) => console.log(err));
-  });
 });
 
 const PORT = process.env.PORT;
@@ -179,7 +198,7 @@ function authenticateToken(req, res, next) {
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     console.log(err);
-    if (err) return res.sendStatus(403);
+    if (err) return res.sendStatus(403).json({ msg: "Not valid" });
     req.user = user;
     next();
   });
