@@ -8,6 +8,7 @@ import Register from "./components/Register";
 import Quiz from "./components/Quiz";
 import QuizForm from "./components/QuizForm";
 import JoinQuiz from "./components/JoinQuiz";
+import MyQuiz from "./components/MyQuiz";
 import { ProtectedRoute } from "./components/ProtectedRoutes";
 import { ProtectedBackwardRoute } from "./components/ProtectedRoutesBackward";
 import {

@@ -65,6 +65,14 @@ app.get("/quiz/:id", (req, res) => {
   });
 });
 
+app.get("/my_quiz", (req, res) => {
+  User.findOne({ username: currentUser.username })
+    .then((users) => {
+      console.log(users.Quizs);
+    })
+    .catch((err) => console.log(err));
+});
+
 app.post("/register", (req, res) => {
   let { username, password, confirmPass } = req.body;
   if (username && password) {
