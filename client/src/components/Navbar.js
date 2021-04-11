@@ -48,7 +48,7 @@ function Nvbar() {
                   className={"dropdown-menu " + showDropdown}
                   aria-labelledby="navbarDropdown"
                 >
-                  <a className="dropdown-item" href="#">
+                  <a className="dropdown-item" href="/my_quiz">
                     My Quiz
                   </a>
                   <a className="dropdown-item" href="#">

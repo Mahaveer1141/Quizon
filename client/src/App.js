@@ -39,6 +39,7 @@ function App() {
           <ProtectedRoute path="/join_quiz" component={JoinQuiz} />
           <Route exact path="/quiz" component={() => <Redirect to="/" />} />
           <ProtectedRoute path="/quiz/:id" component={Quiz} />
+          <ProtectedRoute path="/my_quiz" component={MyQuiz} />
         </Switch>
       </div>
     </Router>

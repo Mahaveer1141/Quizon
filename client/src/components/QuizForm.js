@@ -137,8 +137,8 @@ const QuizForm = () => {
       <div className="upper">
         <div className="main-div">
           <AlertDismissibleSuccess />
-          <h4 style={{ color: "white" }}>Use below key to access quiz</h4>
-          <h3 style={{ color: "white" }}>{key}</h3>
+          <h5 style={{ color: "white" }}>Use below key to access quiz</h5>
+          <h4 style={{ color: "white" }}>{key}</h4>
           <div
             style={{ padding: "1rem" }}
             className="d-flex flex-column justify-content-center align-items-center"

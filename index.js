@@ -68,7 +68,7 @@ app.get("/quiz/:id", (req, res) => {
 app.get("/my_quiz", (req, res) => {
   User.findOne({ username: currentUser.username })
     .then((users) => {
-      console.log(users.Quizs);
+      res.json(users.Quizs);
     })
     .catch((err) => console.log(err));
 });
