@@ -6,7 +6,7 @@ function MyQuiz() {
   const [quizList, setquizList] = useState([]);
   useEffect(() => {
     axios
-      .get("https://quizcon.herokuapp.com//my_quiz")
+      .get("https://quizcon.herokuapp.com/my_quiz")
       .then((res) => {
         console.log(res.data);
         setquizList(res.data);
