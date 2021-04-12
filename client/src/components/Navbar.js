@@ -51,9 +51,9 @@ function Nvbar() {
                   <a className="dropdown-item" href="/my_quiz">
                     My Quiz
                   </a>
-                  <a className="dropdown-item" href="#">
+                  {/* <a className="dropdown-item" href="#">
                     Quiz scores
-                  </a>
+                  </a> */}
                   <div className="dropdown-divider"></div>
                   <a className="dropdown-item" href="/logout">
                     Logout

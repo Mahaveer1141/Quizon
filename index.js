@@ -4,8 +4,7 @@ const jwt = require("jsonwebtoken");
 const cors = require("cors");
 require("dotenv").config();
 
-let uri = "mongodb://localhost:27017/Userdb";
-mongoose.connect(process.env.MONGODB_URI || uri, {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -51,18 +50,20 @@ app.get("/", (req, res) => {
 
 app.get("/quiz/:id", (req, res) => {
   let id = req.params.id;
-  User.find().then((users) => {
-    for (let i = 0; i < users.length; i++) {
-      let b = users[i].Quizs;
-      for (let j = 0; j < users[i].Quizs.length; j++) {
-        if (b[j].id === id) {
-          console.log(b[j]);
-          res.json(b[j]);
+  User.find()
+    .then((users) => {
+      for (let i = 0; i < users.length; i++) {
+        let b = users[i].Quizs;
+        for (let j = 0; j < users[i].Quizs.length; j++) {
+          if (b[j].id === id) {
+            console.log(b[j]);
+            res.json(b[j]);
+          }
         }
       }
-    }
-    res.json({ err: "key is not valid" });
-  });
+      res.json({ err: "key is not valid" });
+    })
+    .catch((err) => console.log(err));
 });
 
 app.get("/my_quiz", (req, res) => {
@@ -91,23 +92,25 @@ app.post("/register", (req, res) => {
     if (errors.length > 0) {
       res.json({ errors: errors });
     } else {
-      User.findOne({ username: username }).then((user) => {
-        if (user) {
-          errors.push("Username already exists\n");
-          res.json({ errors: errors });
-        } else {
-          const user = new User({
-            username,
-            password,
-          });
-          user
-            .save()
-            .then((user) => {
-              res.json(user);
-            })
-            .catch((err) => console.log(err));
-        }
-      });
+      User.findOne({ username: username })
+        .then((user) => {
+          if (user) {
+            errors.push("Username already exists\n");
+            res.json({ errors: errors });
+          } else {
+            const user = new User({
+              username,
+              password,
+            });
+            user
+              .save()
+              .then((user) => {
+                res.json(user);
+              })
+              .catch((err) => console.log(err));
+          }
+        })
+        .catch((err) => console.log(err));
     }
   }
 });
@@ -128,30 +131,32 @@ app.post("/login", (req, res) => {
     if (errors.length > 0) {
       res.json({ errors: errors });
     } else {
-      User.findOne({ username: username }).then((user) => {
-        if (!user) {
-          errors.push("User don't exists\n");
-          res.json({ errors: errors });
-        } else {
-          if (user.password != password) {
-            errors.push("password is incorrect\n");
+      User.findOne({ username: username })
+        .then((user) => {
+          if (!user) {
+            errors.push("User don't exists\n");
             res.json({ errors: errors });
           } else {
-            const accessToken = jwt.sign(
-              {
-                _id: user.id,
-                username: user.username,
-                password: user.password,
-                Quiz: user.Quiz,
-              },
-              process.env.ACCESS_TOKEN_SECRET,
-              { expiresIn: "10d" }
-            );
-            currentUser = user;
-            res.json({ user: user, accessToken: accessToken });
+            if (user.password != password) {
+              errors.push("password is incorrect\n");
+              res.json({ errors: errors });
+            } else {
+              const accessToken = jwt.sign(
+                {
+                  _id: user.id,
+                  username: user.username,
+                  password: user.password,
+                  Quiz: user.Quiz,
+                },
+                process.env.ACCESS_TOKEN_SECRET,
+                { expiresIn: "10d" }
+              );
+              currentUser = user;
+              res.json({ user: user, accessToken: accessToken });
+            }
           }
-        }
-      });
+        })
+        .catch((err) => console.log(err));
     }
   }
 });
@@ -182,15 +187,17 @@ app.post("/create_quiz", authenticateToken, (req, res) => {
       });
     }
 
-    User.findOne({ username: currentUser.username }).then((user) => {
-      user.Quizs.push(quiz_list);
-      user
-        .save()
-        .then((user) => {
-          res.json(user);
-        })
-        .catch((err) => console.log(err));
-    });
+    User.findOne({ username: currentUser.username })
+      .then((user) => {
+        user.Quizs.push(quiz_list);
+        user
+          .save()
+          .then((user) => {
+            res.json(user);
+          })
+          .catch((err) => console.log(err));
+      })
+      .catch((err) => console.log(err));
   }
 });
 

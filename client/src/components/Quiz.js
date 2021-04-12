@@ -43,7 +43,7 @@ function Quiz() {
         if (questions !== undefined && questions[0] !== undefined) {
           if (index !== questions.length - 1) {
             setIndex(index + 1);
-            setcountTimer(10);
+            setcountTimer(20);
           } else if (index === questions.length - 1) {
             setCompleted(completed + 1);
           }
