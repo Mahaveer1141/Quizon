@@ -185,11 +185,6 @@ strong {
   color: var(--primary-color);
 }
 
-.bg-color {
-  background: var(--primary-color);
-  color: var(--white-color);
-}
-
 /*---------------------------------------
    GENERAL               
 -----------------------------------------*/
