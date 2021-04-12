@@ -8,7 +8,7 @@ function Quiz() {
   const [questions, setQuestions] = useState([]);
   const [timer, setTimer] = useState(20);
   useEffect(() => {
-    let url = `http://localhost:5000/quiz/${id}`;
+    let url = `https://quizcon.herokuapp.com/quiz/${id}`;
     axios.get(url).then((res) => {
       setTimer(res.data.time);
       setQuestions((prev) => {

@@ -13,7 +13,7 @@ function Login() {
   const history = useHistory();
 
   useEffect(() => {
-    axios.post("http://localhost:5000/login", user).then((res) => {
+    axios.post("https://quizcon.herokuapp.com/login", user).then((res) => {
       if (res.data.errors) {
         setError(res.data.errors);
       } else {

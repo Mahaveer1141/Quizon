@@ -33,7 +33,7 @@ const QuizForm = () => {
 
   useEffect(() => {
     axios
-      .post("http://localhost:5000/create_quiz", totalInfo, {
+      .post("https://quizcon.herokuapp.com/create_quiz", totalInfo, {
         headers: {
           Authorization: `Bearer ${window.localStorage.getItem("token")}`,
         },
