@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Alert } from "react-bootstrap";
 import axios from "axios";
 import { Redirect, useHistory } from "react-router";
+import Navbar from "./Navbar";
 
 function Login() {
   const [name, setName] = useState("");
@@ -88,6 +89,7 @@ function Login() {
 
   return (
     <div>
+      <Navbar />
       <div className="bg-overlay1 d-flex flex-column justify-content-center align-items-center">
         <div className="login-box">
           <AlertDismissibleFail />

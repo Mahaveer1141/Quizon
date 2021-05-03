@@ -2,20 +2,18 @@ import "./Quiz.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router";
-import { Redirect } from "react-router-dom";
+import Navbar from "./Navbar";
 
 function Quiz() {
   const [questions, setQuestions] = useState([]);
-  const [timer, setTimer] = useState(20);
+  const timer = 180;
   useEffect(() => {
     let url = `https://quizcon.herokuapp.com/quiz/${id}`;
     axios.get(url).then((res) => {
-      setTimer(res.data.time);
       setQuestions((prev) => {
         prev = res.data.info;
         return prev;
       });
-      console.log(questions);
     });
   }, []);
 
@@ -43,7 +41,7 @@ function Quiz() {
         if (questions !== undefined && questions[0] !== undefined) {
           if (index !== questions.length - 1) {
             setIndex(index + 1);
-            setcountTimer(20);
+            setcountTimer(timer);
           } else if (index === questions.length - 1) {
             setCompleted(completed + 1);
           }
@@ -67,7 +65,7 @@ function Quiz() {
 
     if (index !== questions.length - 1) {
       setIndex(index + 1);
-      countTimer = 10;
+      countTimer = timer;
       setcountTimer((prev) => (prev = countTimer));
     } else if (index === questions.length - 1) {
       setCompleted(completed + 1);
@@ -114,65 +112,70 @@ function Quiz() {
   };
 
   return (
-    <div className="con">
-      <div className="main-area">
-        {completed >= 1 ? (
-          <>
-            <ScoreCard />
-          </>
-        ) : (
-          <>
-            {questions !== undefined && questions[0] !== undefined ? (
-              <>
-                <div className="timer-line">
-                  <div className="timer-c">{countTimer}</div>
-                </div>
+    <>
+      <Navbar />
+      <div className="con">
+        <div className="main-area">
+          {completed >= 1 ? (
+            <>
+              <ScoreCard />
+            </>
+          ) : (
+            <>
+              {questions !== undefined && questions[0] !== undefined ? (
+                <>
+                  <div className="timer-line">
+                    <div className="timer-c">{countTimer}</div>
+                  </div>
 
-                <div className="q-section">
-                  <h2>{questions[index].Question}</h2>
-                  <h5 className="q-count">
-                    Question {index + 1}/
-                    <span style={{ fontSize: "15px" }}>{questions.length}</span>
-                  </h5>
-                </div>
-                <div className="ans-section">
-                  <button
-                    onClick={() => HandleClick(questions[index].optionA)}
-                    className="btn click btn-lg btn-block"
-                  >
-                    {questions[index].optionA}
-                  </button>
-                  <button
-                    onClick={() => HandleClick(questions[index].optionB)}
-                    className="btn click btn-lg btn-block"
-                  >
-                    {questions[index].optionB}
-                  </button>
-                  <button
-                    onClick={() => HandleClick(questions[index].optionC)}
-                    className="btn click btn-lg btn-block"
-                  >
-                    {questions[index].optionC}
-                  </button>
-                  <button
-                    onClick={() => HandleClick(questions[index].optionD)}
-                    className="btn click btn-lg btn-block"
-                  >
-                    {questions[index].optionD}
-                  </button>
-                </div>
-              </>
-            ) : (
-              <>
-                <h1 style={{ marginTop: "5rem", textAlign: "center" }}>
-                  not valid key
-                </h1>
-              </>
-            )}
-          </>
-        )}
+                  <div className="q-section">
+                    <h2>{questions[index].Question}</h2>
+                    <h5 className="q-count">
+                      Question {index + 1}/
+                      <span style={{ fontSize: "15px" }}>
+                        {questions.length}
+                      </span>
+                    </h5>
+                  </div>
+                  <div className="ans-section">
+                    <button
+                      onClick={() => HandleClick(questions[index].optionA)}
+                      className="btn click btn-lg btn-block"
+                    >
+                      {questions[index].optionA}
+                    </button>
+                    <button
+                      onClick={() => HandleClick(questions[index].optionB)}
+                      className="btn click btn-lg btn-block"
+                    >
+                      {questions[index].optionB}
+                    </button>
+                    <button
+                      onClick={() => HandleClick(questions[index].optionC)}
+                      className="btn click btn-lg btn-block"
+                    >
+                      {questions[index].optionC}
+                    </button>
+                    <button
+                      onClick={() => HandleClick(questions[index].optionD)}
+                      className="btn click btn-lg btn-block"
+                    >
+                      {questions[index].optionD}
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h1 style={{ marginTop: "5rem", textAlign: "center" }}>
+                    not valid key
+                  </h1>
+                </>
+              )}
+            </>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

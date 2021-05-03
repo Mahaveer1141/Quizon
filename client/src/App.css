@@ -173,8 +173,8 @@ strong {
 
 .custom-btn.bordered:hover,
 .custom-btn.bordered:focus,
-.custom-btn.bg-color:hover,
-.custom-btn.bg-color:focus {
+.custom-btn.bg:hover,
+.custom-btn.bg:focus {
   background: var(--white-color);
   border-color: transparent;
   color: var(--primary-color);

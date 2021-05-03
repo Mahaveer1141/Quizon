@@ -22,7 +22,6 @@ function App() {
   return (
     <Router>
       <div>
-        <Navbar />
         <Switch>
           <Route path="/" exact component={Home} />
           <ProtectedBackwardRoute path="/login" component={Login} />
@@ -55,6 +54,7 @@ const Home = () => {
   window.localStorage.removeItem("list");
   return (
     <div>
+      <Navbar />
       <Feature />
       <About />
     </div>

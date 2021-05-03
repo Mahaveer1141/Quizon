@@ -1,6 +1,7 @@
 import "./MyQuiz.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Navbar from "./Navbar";
 
 function MyQuiz() {
   const [quizList, setquizList] = useState([]);
@@ -15,22 +16,25 @@ function MyQuiz() {
   }, []);
 
   return (
-    <div className="main-con">
-      <h2 style={{ color: "white" }}>My Quizes ({quizList.length})</h2>
+    <>
+      <Navbar />
+      <div className="main-con">
+        <h2 style={{ color: "white" }}>My Quizes ({quizList.length})</h2>
 
-      {quizList.map((item) => (
-        <div className="quiz-con">
-          <div>
+        {quizList.map((item) => (
+          <div className="quiz-con">
             <div>
-              id: <span className="span">{item._id}</span>
-            </div>
-            <div>
-              Question: <span className="span">{item.info.length}</span>
+              <div>
+                id: <span className="span">{item._id}</span>
+              </div>
+              <div>
+                Question: <span className="span">{item.info.length}</span>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+    </>
   );
 }
 

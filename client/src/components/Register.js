@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Alert, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-
+import Navbar from "./Navbar";
 function Register() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -86,6 +86,7 @@ function Register() {
 
   return (
     <div>
+      <Navbar />
       <div>
         <div className="bg-overlay1 d-flex flex-column justify-content-center align-items-center">
           <div className="login-box">

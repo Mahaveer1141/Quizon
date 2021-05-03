@@ -3,6 +3,7 @@ import "./QuizForm.css";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { Alert, Button } from "react-bootstrap";
+import Navbar from "./Navbar";
 
 const QuizForm = () => {
   let intialList = JSON.parse(window.localStorage.getItem("list")) || [
@@ -15,12 +16,7 @@ const QuizForm = () => {
       correctAns: "",
     },
   ];
-
-  let intialTime = Number(window.localStorage.getItem("time") || 1);
-  const history = useHistory();
-
   const [inputList, setInputList] = useState(intialList);
-  const [time, setTime] = useState(intialTime);
   const [totalInfo, setTotalInfo] = useState({});
   const [error, setError] = useState([]);
   const [redirect, setRedirect] = useState(false);
@@ -28,10 +24,10 @@ const QuizForm = () => {
 
   useEffect(() => {
     window.localStorage.setItem("list", JSON.stringify(inputList));
-    window.localStorage.setItem("time", time);
   });
 
   useEffect(() => {
+    console.log(totalInfo);
     axios
       .post("https://quizcon.herokuapp.com/create_quiz", totalInfo, {
         headers: {
@@ -82,7 +78,7 @@ const QuizForm = () => {
 
   const onSubmit = () => {
     let a = {
-      time: time,
+      time: 180,
       info: inputList,
     };
     setTotalInfo(a);
@@ -161,24 +157,15 @@ const QuizForm = () => {
 
   return (
     <>
+      <Navbar />
       {!redirect ? (
         <div className="upper">
           <div className="main-div">
             <AlertDismissibleFail />
             <div className="q-box1">
-              <div>
-                <label style={{ fontWeight: "bold" }}>
-                  Enter time alloted to per question in seconds
-                </label>
-                <input
-                  type="number"
-                  value={time}
-                  onChange={(e) => setTime(e.target.value)}
-                  className="take-info1"
-                  name="Question"
-                  placeholder="Enter time"
-                />
-              </div>
+              <p style={{ fontWeight: "bold", color: "#c7c7c7" }}>
+                Default Time alloted to per question is 180 seconds
+              </p>
             </div>
 
             {inputList.map((x, i) => (

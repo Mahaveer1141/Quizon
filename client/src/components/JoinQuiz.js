@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
+import Navbar from "./Navbar";
 
 function JoinQuiz() {
   const [key, setKey] = useState("");
 
   return (
     <div>
+      <Navbar />
       <div className="upper">
         <div className="main-div">
           <h1 style={{ color: "white" }}>Join Quiz</h1>
