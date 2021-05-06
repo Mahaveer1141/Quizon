@@ -4,13 +4,10 @@ const jwt = require("jsonwebtoken");
 const cors = require("cors");
 require("dotenv").config();
 
-mongoose.connect(
-  "mongodb+srv://Mahaveer:aa2zu4jTWsp49SST@cluster1.ukjlx.mongodb.net/users?retryWrites=true&w=majority",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-);
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
@@ -205,7 +202,7 @@ app.post("/create_quiz", authenticateToken, (req, res) => {
 });
 
 const PORT = process.env.PORT;
-app.listen(5000, () => {
+app.listen(PORT, () => {
   console.log(`app is running on port ${PORT}`);
 });
 
