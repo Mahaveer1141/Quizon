@@ -66,13 +66,6 @@ app.get("/quiz/:id", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-app.get("/delete/:id", (req, res) => {
-  let id = req.params.id;
-  User.findOne({ username: currentUser.username })
-    .then((data) => res.json(data))
-    .catch((err) => console.log(err));
-});
-
 app.get("/my_quiz", (req, res) => {
   User.findOne({ username: currentUser.username })
     .then((users) => {

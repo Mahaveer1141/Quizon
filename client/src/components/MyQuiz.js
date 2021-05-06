@@ -27,18 +27,6 @@ function MyQuiz() {
             <div className="quiz-con">
               <div>id: {item._id}</div>
               <div>Quesion: {item.info.length}</div>
-              <a
-                style={{ marginTop: "5px", marginBottom: "3px" }}
-                className="btn btn-primary btn-sm "
-              >
-                Edit Quiz
-              </a>
-              <a
-                style={{ marginTop: "5px", marginBottom: "3px" }}
-                className="btn btn-danger btn-sm "
-              >
-                Delete Quiz
-              </a>
             </div>
           ))}
         </div>
