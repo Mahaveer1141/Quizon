@@ -19,20 +19,29 @@ function MyQuiz() {
     <>
       <Navbar />
       <div className="main-con">
-        <h2 style={{ color: "white" }}>My Quizes ({quizList.length})</h2>
-
-        {quizList.map((item) => (
-          <div className="quiz-con">
-            <div>
-              <div>
-                id: <span className="span">{item._id}</span>
-              </div>
-              <div>
-                Question: <span className="span">{item.info.length}</span>
-              </div>
+        <div className="box">
+          <h2 style={{ color: "white", marginBottom: "1rem" }}>
+            My Quizes ({quizList.length})
+          </h2>
+          {quizList.map((item) => (
+            <div className="quiz-con">
+              <div>id: {item._id}</div>
+              <div>Quesion: {item.info.length}</div>
+              <a
+                style={{ marginTop: "5px", marginBottom: "3px" }}
+                className="btn btn-primary btn-sm "
+              >
+                Edit Quiz
+              </a>
+              <a
+                style={{ marginTop: "5px", marginBottom: "3px" }}
+                className="btn btn-danger btn-sm "
+              >
+                Delete Quiz
+              </a>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </>
   );
