@@ -5,7 +5,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 mongoose.connect(
-  "mongodb+srv://Mahaveer:aa2zu4jTWsp49SST@cluster1.ukjlx.mongodb.net/cluster1?retryWrites=true&w=majority",
+  "mongodb+srv://Mahaveer:aa2zu4jTWsp49SST@cluster1.ukjlx.mongodb.net/users?retryWrites=true&w=majority",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -205,7 +205,7 @@ app.post("/create_quiz", authenticateToken, (req, res) => {
 });
 
 const PORT = process.env.PORT;
-app.listen(PORT, () => {
+app.listen(5000, () => {
   console.log(`app is running on port ${PORT}`);
 });
 
