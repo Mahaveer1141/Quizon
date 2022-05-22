@@ -1,92 +1,54 @@
-import User from "../models/userModel";
-import { Response, NextFunction } from "express";
+import User, {
+  loginValidationSchmea,
+  registerValidationSchema,
+} from "../models/userModel";
+import { Response, NextFunction, Request } from "express";
 import jwt from "jsonwebtoken";
-import { MyRequest } from "../types";
+import bcrypt from "bcryptjs";
+import { generateAccessToken } from "../utils/generateAccessToken";
 
-export function register(req: MyRequest, res: Response, next: NextFunction) {
-  let { username, password, confirmPass } = req.body;
-  if (username && password) {
-    username = username.trim();
-    password = password.trim();
-    let errors = [];
-    if (!username || !password) {
-      errors.push("Please enter all fields\n");
-    }
-    if (confirmPass != password) {
-      errors.push("Password and Confirm Password doesn't match\n");
-    }
-    if (password.length < 8) {
-      errors.push("Password must be at least 8 characters\n");
-    }
-    if (errors.length > 0) {
-      res.json({ errors: errors });
-    } else {
-      User.findOne({ username: username })
-        .then((user: any) => {
-          if (user) {
-            errors.push("Username already exists\n");
-            res.json({ errors: errors });
-          } else {
-            const user = new User({
-              username,
-              password,
-            });
-            user
-              .save()
-              .then((user: any) => {
-                res.json(user);
-              })
-              .catch((err: any) => console.log(err));
-          }
-        })
-        .catch((err) => console.log(err));
-    }
+const refreshTokens: string[] = [];
+
+export async function register(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    let userData = req.body;
+    await registerValidationSchema.validateAsync(userData);
+    const resUser = await User.findOne({ username: userData.username });
+    if (resUser) throw new Error("username already registered");
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(userData.password, salt);
+    userData.password = hashedPassword;
+    const user = new User(userData);
+    const savedUser = await user.save();
+    res.json({ id: savedUser._id });
+  } catch (err) {
+    next(err);
   }
-  next();
 }
 
-export function login(req: MyRequest, res: Response, next: NextFunction) {
-  let { username, password } = req.body;
-  if (username && password) {
-    username = username.trim();
-    password = password.trim();
-    let errors = [];
-    if (!username || !password) {
-      errors.push("Please enter all fields\n");
-    }
-    if (password.length < 8) {
-      errors.push("Password must be at least 8 characters\n");
-    }
-    if (errors.length > 0) {
-      res.json({ errors: errors });
-    } else {
-      User.findOne({ username: username })
-        .then((user) => {
-          if (!user) {
-            errors.push("User don't exists\n");
-            res.json({ errors: errors });
-          } else {
-            if (user.password != password) {
-              errors.push("password is incorrect\n");
-              res.json({ errors: errors });
-            } else {
-              const accessToken = jwt.sign(
-                {
-                  _id: user.id,
-                  username: user.username,
-                  password: user.password,
-                  Quiz: user.Quiz,
-                },
-                process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: "10d" }
-              );
-              req.userId = user;
-              res.json({ user: user, accessToken: accessToken });
-            }
-          }
-        })
-        .catch((err) => console.log(err));
-    }
+export async function login(req: Request, res: Response, next: NextFunction) {
+  try {
+    const userData = req.body;
+    await loginValidationSchmea.validateAsync(userData);
+    const user = await User.findOne({ username: userData.username });
+    if (!user) throw new Error("user not exists");
+    const isCorrect: boolean = await bcrypt.compare(
+      userData.password,
+      user.password
+    );
+    if (!isCorrect) throw new Error("Incorrect password");
+    const accessToken = generateAccessToken({ userId: user._id });
+    const refreshToken = jwt.sign(
+      { userId: user._id },
+      process.env.REFRESH_TOKEN_SECRET || ""
+    );
+    refreshTokens.push(refreshToken);
+    res.json({ accessToken, refreshToken });
+  } catch (err) {
+    next(err);
   }
-  next();
 }

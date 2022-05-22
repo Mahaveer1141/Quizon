@@ -1,8 +1,7 @@
-import { Response, NextFunction } from "express";
-import { MyRequest } from "../types";
+import { Response, NextFunction, Request } from "express";
 import User from "../models/userModel";
 
-export function getQuizById(req: MyRequest, res: Response, next: NextFunction) {
+export function getQuizById(req: Request, res: Response, next: NextFunction) {
   let id = req.params.id;
   User.find()
     .then((users) => {
@@ -22,7 +21,7 @@ export function getQuizById(req: MyRequest, res: Response, next: NextFunction) {
   next();
 }
 
-export function getMyQuiz(req: MyRequest, res: Response, next: NextFunction) {
+export function getMyQuiz(req: Request, res: Response, next: NextFunction) {
   User.findOne({ username: req.userId })
     .then((users) => {
       res.json(users.Quizs);
@@ -31,7 +30,7 @@ export function getMyQuiz(req: MyRequest, res: Response, next: NextFunction) {
   next();
 }
 
-export function createQuiz(req: MyRequest, res: Response, next: NextFunction) {
+export function createQuiz(req: Request, res: Response, next: NextFunction) {
   let quiz_list = req.body;
   if (quiz_list.info !== undefined) {
     console.log(quiz_list);

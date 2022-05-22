@@ -4,6 +4,7 @@ import "dotenv/config";
 
 import databaseConfig from "./config/databaseConfig";
 import { errorHandler, notFound } from "./middleware/errorHandler";
+import authRoute from "./routes/authRoute";
 
 const app = express();
 
@@ -11,6 +12,8 @@ databaseConfig();
 
 app.use(express.json());
 app.use(cors());
+
+app.use("/auth", authRoute);
 
 app.get("/", (_req, res) => {
   res.json({ hello: "hello" });
