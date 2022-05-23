@@ -1,4 +1,5 @@
 import express from "express";
+import { authenticateToken } from "../middleware/authMiddleware";
 import {
   getQuizById,
   getMyQuizs,
@@ -7,8 +8,8 @@ import {
 
 const router = express();
 
-router.get("/:id", getQuizById);
-router.get("/my_quiz", getMyQuizs);
-router.post("/create_quiz", createQuiz);
+router.get("/quiz/:id", getQuizById);
+router.get("/my_quiz", authenticateToken, getMyQuizs);
+router.post("/create_quiz", authenticateToken, createQuiz);
 
 export default router;

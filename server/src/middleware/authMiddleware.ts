@@ -10,7 +10,7 @@ export function authenticateToken(
   try {
     const authHeader = req.headers["authorization"];
     const token = (authHeader && authHeader.split(" ")[1]) || "";
-    if (token == null) throw new Error("Token not found in headers");
+    if (token === "") throw new Error("Token not found in headers");
 
     jwt.verify(
       token,
@@ -20,6 +20,7 @@ export function authenticateToken(
         req.userId = user.userId;
       }
     );
+    next();
   } catch (err) {
     next(err);
   }
