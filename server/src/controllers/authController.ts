@@ -52,3 +52,23 @@ export async function login(req: Request, res: Response, next: NextFunction) {
     next(err);
   }
 }
+
+export function tokenChange(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { refreshToken } = req.body;
+    if (refreshToken == null) throw new Error("refreshToken not found");
+    if (!refreshTokens.includes(refreshToken))
+      throw new Error("Refresh Token expired");
+    jwt.verify(
+      refreshToken,
+      process.env.REFRESH_TOKEN_SECRET || "",
+      (err: any, user: any) => {
+        if (err) throw new Error(err.message);
+        const accessToken = generateAccessToken({ userId: user.userId });
+        res.json({ accessToken });
+      }
+    );
+  } catch (err) {
+    next(err);
+  }
+}

@@ -1,14 +1,14 @@
 import express from "express";
 import {
   getQuizById,
-  getMyQuiz,
+  getMyQuizs,
   createQuiz,
 } from "../controllers/quizController";
 
 const router = express();
 
 router.get("/:id", getQuizById);
-router.get("/my_quiz", getMyQuiz);
+router.get("/my_quiz", getMyQuizs);
 router.post("/create_quiz", createQuiz);
 
 export default router;
