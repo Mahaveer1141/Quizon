@@ -28,7 +28,7 @@ export const registerValidationSchema = Joi.object({
   confirmPassword: Joi.any()
     .equal(Joi.ref("password"))
     .required()
-    .label("Confirm password")
+    .label("Confirm Password")
     .messages({ "any.only": "{{#label}} does not match" }),
 });
 
