@@ -1,24 +1,20 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../utills/types";
-import { useDispatch } from "react-redux";
+import { RootState } from "../../utills/types";
 import { useNavigate } from "react-router-dom";
 
 import "./Navbar.scss";
-import { getMe } from "../../redux/userSlice";
 import { clearToken } from "../../utills/utils";
 
 function Navbar() {
   const navigate = useNavigate();
   const [showDropdownMenu, setShowDropdownMenu] = useState(false);
   const dropdowneMenu = () => {
-    console.log("hello");
     setShowDropdownMenu(!showDropdownMenu);
   };
 
   const showDropdown = showDropdownMenu ? "show" : "";
 
-  const dispatch: AppDispatch = useDispatch();
   const { username, status } = useSelector((state: RootState) => state.user);
   const isAuth = status === "success";
 
@@ -26,10 +22,6 @@ function Navbar() {
     clearToken();
     navigate("/login");
   };
-
-  useEffect(() => {
-    dispatch(getMe());
-  }, []);
 
   return (
     <div>

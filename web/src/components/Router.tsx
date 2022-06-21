@@ -7,18 +7,24 @@ import Login from "./Login/Login";
 import Register from "./Register/Register";
 import MyQuiz from "./MyQuiz/MyQuiz";
 import Quiz from "./Quiz/Quiz";
+import ProtectedRoute from "./ProtectedRoutes";
+import BackwardProtectedRoute from "./BackwardProtectedRoutes";
 
 const Router: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/join_quiz" element={<JoinQuiz />} />
-        <Route path="/create_quiz" element={<CreateQuiz />} />
-        <Route path="/my_quiz" element={<MyQuiz />} />
-        <Route path="/quiz/:id" element={<Quiz />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/join_quiz" element={<JoinQuiz />} />
+          <Route path="/create_quiz" element={<CreateQuiz />} />
+          <Route path="/my_quiz" element={<MyQuiz />} />
+          <Route path="/quiz/:id" element={<Quiz />} />
+        </Route>
+        <Route element={<BackwardProtectedRoute />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
