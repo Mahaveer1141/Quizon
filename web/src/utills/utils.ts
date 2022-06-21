@@ -5,3 +5,13 @@ export function setAccessToken(accessToken: string) {
 export function setRefreshToken(refreshToken: string) {
   localStorage.setItem("refreshToken", refreshToken);
 }
+
+export function getAcessToken() {
+  const accessToken = localStorage.getItem("accessToken") || "";
+  return accessToken;
+}
+
+export function getRefreshToken() {
+  const refreshToken = localStorage.getItem("refreshToken") || "";
+  return refreshToken;
+}

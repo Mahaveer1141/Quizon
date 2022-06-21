@@ -5,8 +5,11 @@ import Loader from "../Loader/Loader";
 import axios from "axios";
 import { backendUrl } from "../../utills/constanst";
 import { setAccessToken, setRefreshToken } from "../../utills/utils";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
+
   return (
     <div>
       <div className="bg-overlay1 d-flex flex-column justify-content-center align-items-center">
@@ -23,7 +26,6 @@ function Login() {
                   `${backendUrl}/auth/login`,
                   values
                 );
-                console.log(data);
                 if (data.errors) {
                   if (data.errors.message.includes("username"))
                     setErrors({ username: data.errors.message });
@@ -32,6 +34,7 @@ function Login() {
                 } else {
                   setAccessToken(data.accessToken);
                   setRefreshToken(data.refreshToken);
+                  navigate("/");
                 }
                 setSubmitting(false);
               }}
