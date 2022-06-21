@@ -15,3 +15,8 @@ export function getRefreshToken() {
   const refreshToken = localStorage.getItem("refreshToken") || "";
   return refreshToken;
 }
+
+export function clearToken() {
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
+}

@@ -6,6 +6,7 @@ import databaseConfig from "./config/databaseConfig";
 import { errorHandler, notFound } from "./middleware/errorHandler";
 import authRoute from "./routes/authRoute";
 import quizRoute from "./routes/quizRoutes";
+import userRoute from "./routes/userRoute";
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(cors());
 
 app.use("/auth", authRoute);
 app.use("/quizs", quizRoute);
+app.use("/user", userRoute);
 
 app.get("/", (_req, res) => {
   res.json({ hello: "hello" });

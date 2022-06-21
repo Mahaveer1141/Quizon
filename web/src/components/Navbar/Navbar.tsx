@@ -1,21 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../utills/types";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import "./Navbar.scss";
+import { getMe } from "../../redux/userSlice";
+import { clearToken } from "../../utills/utils";
 
 function Navbar() {
+  const navigate = useNavigate();
   const [showDropdownMenu, setShowDropdownMenu] = useState(false);
-  //const [isAuth, setAuth] = useState(false);
-  //const [user, setUser] = useState({});
-
   const dropdowneMenu = () => {
-    setShowDropdownMenu(() => !showDropdownMenu);
+    console.log("hello");
+    setShowDropdownMenu(!showDropdownMenu);
   };
-  const isAuth = false;
+
   const showDropdown = showDropdownMenu ? "show" : "";
 
-  //useEffect(() => {
-  //setAuth(Boolean(window.localStorage.getItem("isAuth")));
-  //setUser(JSON.parse(window.localStorage.getItem("CurrentUser") || ""));
-  //}, [isAuth]);
+  const dispatch: AppDispatch = useDispatch();
+  const { username, status } = useSelector((state: RootState) => state.user);
+  const isAuth = status === "success";
+
+  const logout = () => {
+    clearToken();
+    navigate("/login");
+  };
+
+  useEffect(() => {
+    dispatch(getMe());
+  }, []);
 
   return (
     <div>
@@ -27,18 +41,13 @@ function Navbar() {
           {isAuth ? (
             <ul className="navbar-nav ml-lg-auto">
               <li className="nav-item dropdown">
-                <a
+                <div
                   onClick={dropdowneMenu}
                   className="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdown"
                   role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
                 >
-                  username
-                </a>
+                  {username}
+                </div>
                 <div
                   className={"dropdown-menu " + showDropdown}
                   aria-labelledby="navbarDropdown"
@@ -50,9 +59,9 @@ function Navbar() {
                     Quiz scores
                   </a> */}
                   <div className="dropdown-divider"></div>
-                  <a className="dropdown-item" href="/logout">
+                  <div onClick={logout} className="dropdown-item">
                     Logout
-                  </a>
+                  </div>
                 </div>
               </li>
             </ul>

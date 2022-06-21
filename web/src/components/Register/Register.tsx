@@ -5,12 +5,14 @@ import Loader from "../Loader/Loader";
 import axios from "axios";
 import { backendUrl } from "../../utills/constanst";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../Navbar/Navbar";
 
 function Register() {
   const navigate = useNavigate();
 
   return (
     <div>
+      <Navbar />
       <div>
         <div className="bg-overlay1 d-flex flex-column justify-content-center align-items-center">
           <div className="register-box">

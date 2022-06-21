@@ -8,6 +8,14 @@
   min-height: 5rem;
 }
 
+.dropdown-toggle:hover {
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  cursor: pointer;
+}
+
 .navbar-expand-lg .navbar-nav .nav-link {
   padding-right: 1.5rem;
   padding-left: 1.5rem;

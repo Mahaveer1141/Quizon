@@ -8,6 +8,8 @@ import jwtDecode from "jwt-decode";
 
 import { getAcessToken, getRefreshToken, setAccessToken } from "./utills/utils";
 import { backendUrl } from "./utills/constanst";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 
 // Add a request interceptor
 axios.interceptors.request.use(
@@ -56,7 +58,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>
 );
 

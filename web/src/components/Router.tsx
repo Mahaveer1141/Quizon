@@ -7,12 +7,10 @@ import Login from "./Login/Login";
 import Register from "./Register/Register";
 import MyQuiz from "./MyQuiz/MyQuiz";
 import Quiz from "./Quiz/Quiz";
-import Navbar from "./Navbar/Navbar";
 
 const Router: React.FC = () => {
   return (
     <BrowserRouter>
-      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />

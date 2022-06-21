@@ -6,12 +6,14 @@ import axios from "axios";
 import { backendUrl } from "../../utills/constanst";
 import { setAccessToken, setRefreshToken } from "../../utills/utils";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../Navbar/Navbar";
 
 function Login() {
   const navigate = useNavigate();
 
   return (
     <div>
+      <Navbar />
       <div className="bg-overlay1 d-flex flex-column justify-content-center align-items-center">
         <div className="login-box">
           <div className="form-div">
