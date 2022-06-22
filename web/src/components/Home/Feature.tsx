@@ -45,10 +45,6 @@ function Feature() {
                 style={{ color: "red" }}
                 href="/create_quiz"
                 className="btn bg custom-btn mt-3"
-                data-aos="fade-up"
-                data-aos-delay="300"
-                data-toggle="modal"
-                data-target="#membershipForm"
               >
                 Start
               </a>
@@ -64,10 +60,6 @@ function Feature() {
                 style={{ color: "red" }}
                 href="/join_quiz"
                 className="btn bg custom-btn mt-3"
-                data-aos="fade-up"
-                data-aos-delay="300"
-                data-toggle="modal"
-                data-target="#membershipForm"
               >
                 Join
               </a>

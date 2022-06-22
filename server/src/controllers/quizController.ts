@@ -1,4 +1,6 @@
 import { Response, NextFunction, Request } from "express";
+
+import { AppError } from "../utils/AppError";
 import User from "../models/userModel";
 
 export async function getQuizById(
@@ -22,7 +24,7 @@ export async function getQuizById(
     // for loop searches the quiz by id if not found
     // then we send the error message that
     // key is not valid
-    throw new Error("key is not valid");
+    throw new AppError("key is not valid", 200);
   } catch (err) {
     next(err);
   }
@@ -48,10 +50,9 @@ export async function createQuiz(
 ) {
   try {
     let quiz_list = req.body;
-    console.log(quiz_list);
     if (quiz_list.info !== undefined) {
       if (quiz_list.time < 5) {
-        throw new Error("time must be more than 5 seconds");
+        throw new AppError("time must be more than 5 seconds", 200);
       }
       for (let i = 0; i < quiz_list.info.length; i++) {
         if (
@@ -62,7 +63,7 @@ export async function createQuiz(
           quiz_list.info[i].optionD.trim() === "" ||
           quiz_list.info[i].correctAns.trim() === ""
         ) {
-          throw new Error("Enter all details correctly");
+          throw new AppError("Enter all details correctly", 200);
         }
       }
       const user = await User.findOne({ _id: req.userId });

@@ -1,5 +1,6 @@
 import { Response, Request, NextFunction } from "express";
 import { ValidationError } from "joi";
+import { AppError } from "../utils/AppError";
 
 export function notFound(req: Request, res: Response, next: NextFunction) {
   res.status(404);
@@ -15,7 +16,9 @@ export function errorHandler(
 ) {
   // check if error is validation error then set code to 200 else set to 500
   const statusCode =
-    err instanceof ValidationError || res.statusCode !== 200
+    err instanceof ValidationError ||
+    err instanceof AppError ||
+    res.statusCode !== 200
       ? res.statusCode
       : 500;
   res.status(statusCode);

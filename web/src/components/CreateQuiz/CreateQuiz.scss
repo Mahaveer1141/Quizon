@@ -4,6 +4,31 @@
   min-height: 100vh;
 }
 
+.error {
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  width: fit-content;
+  margin-bottom: 1rem;
+  background: rgb(230, 149, 149);
+  color: rgb(245, 34, 34);
+}
+
+.success-message {
+  background-color: rgb(55, 48, 48);
+  padding: 1rem;
+  border-radius: 1rem;
+  color: #fff;
+  font-size: 1.2rem;
+}
+
+.s-c {
+  margin-bottom: 0.2rem;
+}
+
+.mm {
+  color: rgb(149, 239, 149);
+}
+
 .main-div {
   margin-top: 1rem;
   text-align: center;

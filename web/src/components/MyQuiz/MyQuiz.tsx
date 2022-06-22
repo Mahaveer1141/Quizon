@@ -21,7 +21,7 @@ function MyQuiz() {
             My Quizes ({quizList.length})
           </h2>
           {quizList.map((item: any) => (
-            <div className="quiz-con">
+            <div className="quiz-con mb-2">
               <div>id: {item._id}</div>
               <div>Quesion: {item.info.length}</div>
             </div>
