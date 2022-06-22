@@ -7,10 +7,15 @@ export const getMe = createAsyncThunk("user/getMe", async () => {
   return data;
 });
 
+interface userMe {
+  username: string;
+  Quizs: Array<any>;
+}
+
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    username: "",
+    me: {} as userMe,
     status: "",
   },
   reducers: {},
@@ -22,13 +27,10 @@ const userSlice = createSlice({
       state.status = "failed";
     });
     builder.addCase(getMe.fulfilled, (state, action) => {
-      state.username = action.payload.username;
+      state.me = action.payload;
       state.status = "success";
     });
   },
 });
-
-// Action creators are generated for each case reducer function
-export const {} = userSlice.actions;
 
 export default userSlice.reducer;

@@ -1,19 +1,16 @@
-import "./MyQuiz.css";
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useSelector } from "react-redux";
+
+import "./MyQuiz.scss";
 import Navbar from "../Navbar/Navbar";
+import { RootState } from "../../utills/types";
+import CenterLoader from "../CenterLoader/CenterLoader";
 
 function MyQuiz() {
-  const [quizList, setquizList] = useState([]);
-  useEffect(() => {
-    axios
-      .get("https://quizcon.herokuapp.com/my_quiz")
-      .then((res) => {
-        console.log(res.data);
-        setquizList(res.data);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+  const { Quizs } = useSelector((state: RootState) => state.user.me);
+  if (Quizs === undefined) {
+    return <CenterLoader />;
+  }
+  const quizList = Quizs;
 
   return (
     <>

@@ -15,7 +15,7 @@ function Navbar() {
 
   const showDropdown = showDropdownMenu ? "show" : "";
 
-  const { username, status } = useSelector((state: RootState) => state.user);
+  const { me, status } = useSelector((state: RootState) => state.user);
   const isAuth = status === "success";
 
   const logout = () => {
@@ -38,7 +38,7 @@ function Navbar() {
                   className="nav-link dropdown-toggle"
                   role="button"
                 >
-                  {username}
+                  {me.username}
                 </div>
                 <div
                   className={"dropdown-menu " + showDropdown}

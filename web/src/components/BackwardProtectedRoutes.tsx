@@ -8,13 +8,15 @@ import { getAcessToken } from "../utills/utils";
 
 const BackwardProtectedRoute: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { username, status } = useSelector((state: RootState) => state.user);
+  const { me, status } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
     dispatch(getMe());
   }, []);
 
-  return status === "success" && username !== "" && getAcessToken() !== "" ? (
+  return status === "success" &&
+    me.username !== undefined &&
+    getAcessToken() !== "" ? (
     <Navigate to="/" />
   ) : (
     <Outlet />
