@@ -1,7 +1,8 @@
-import "./Quiz.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router";
+
+import "./Quiz.scss";
 import Navbar from "../Navbar/Navbar";
 
 function Quiz() {
