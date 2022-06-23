@@ -62,7 +62,7 @@ const CreateQuiz = () => {
       `${backendUrl}/quizs/create_quiz`,
       sendList
     );
-    setKey(data._id);
+    setKey(data.Quizs[data.Quizs.length - 1]._id);
     if (data.errors) setErrors(data.errors);
     else {
       sessionStorage.removeItem("quizList");
@@ -144,13 +144,15 @@ const CreateQuiz = () => {
                     Remove
                   </button>
                 ) : null}
-                <button
-                  onClick={handleAddClick}
-                  style={{ marginTop: "1rem", float: "right" }}
-                  className="btn btn-primary"
-                >
-                  Add
-                </button>
+                {index === inputList.length - 1 ? (
+                  <button
+                    onClick={handleAddClick}
+                    style={{ marginTop: "1rem", float: "right" }}
+                    className="btn btn-primary"
+                  >
+                    Add
+                  </button>
+                ) : null}
               </div>
             </div>
           ))}
