@@ -6,6 +6,7 @@ import { Response, NextFunction, Request } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { generateAccessToken } from "../utils/generateAccessToken";
+import { ValidationError } from "joi";
 
 const refreshTokens: string[] = [];
 
@@ -18,7 +19,8 @@ export async function register(
     let userData = req.body;
     await registerValidationSchema.validateAsync(userData);
     const resUser = await User.findOne({ username: userData.username });
-    if (resUser) throw new Error("username already registered");
+    if (resUser)
+      throw new ValidationError("username already registered", null, null);
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(userData.password, salt);
     userData.password = hashedPassword;
@@ -35,12 +37,13 @@ export async function login(req: Request, res: Response, next: NextFunction) {
     const userData = req.body;
     await loginValidationSchmea.validateAsync(userData);
     const user = await User.findOne({ username: userData.username });
-    if (!user) throw new Error("user not exists");
+    if (!user)
+      throw new ValidationError("username does not exists", null, null);
     const isCorrect: boolean = await bcrypt.compare(
       userData.password,
       user.password
     );
-    if (!isCorrect) throw new Error("Incorrect password");
+    if (!isCorrect) throw new ValidationError("Incorrect password", null, null);
     const accessToken = generateAccessToken({ userId: user._id });
     const refreshToken = jwt.sign(
       { userId: user._id },
