@@ -9,6 +9,7 @@ interface quizType {
   optionC: string;
   optionD: string;
   correctAns: string;
+  response?: string;
 }
 
 export const getQuizById = createAsyncThunk(
@@ -24,7 +25,13 @@ const quizSlice = createSlice({
     quiz: [] as quizType[] | any,
     status: "",
   },
-  reducers: {},
+  reducers: {
+    setQuestion: (state, action) => {
+      const { index, clicked } = action.payload;
+      state.quiz[index].response = clicked;
+    },
+  },
+
   extraReducers: (builder) => {
     builder.addCase(getQuizById.pending, (state) => {
       state.status = "loading";
@@ -33,10 +40,29 @@ const quizSlice = createSlice({
       state.status = "failed";
     });
     builder.addCase(getQuizById.fulfilled, (state, action: any) => {
-      state.quiz = action.payload.data;
+      const newQuiz: quizType[] = [];
+      if (action.payload.data?.info) {
+        action.payload.data?.info.forEach((question: any) => {
+          const demoQuizQuestion = {
+            Question: question.Question,
+            optionA: question.optionA,
+            optionB: question.optionB,
+            optionC: question.optionC,
+            optionD: question.optionD,
+            correctAns: question.correctAns,
+            response: "",
+          };
+          newQuiz.push(demoQuizQuestion);
+        });
+        state.quiz = newQuiz;
+      } else {
+        state.quiz = action.payload.data;
+      }
       state.status = "success";
     });
   },
 });
+
+export const { setQuestion } = quizSlice.actions;
 
 export default quizSlice.reducer;

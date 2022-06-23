@@ -1,23 +1,24 @@
+import axios from "axios";
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getQuizById } from "../../redux/quizSlice";
-import { AppDispatch, RootState } from "../../utills/types";
+import { backendUrl } from "../../utills/constanst";
 import Loader from "../Loader/Loader";
 import Navbar from "../Navbar/Navbar";
 
 function JoinQuiz() {
-  const dispath: AppDispatch = useDispatch();
   const navigate = useNavigate();
-  const [key, setKey] = useState("");
+  const [key, setKey] = useState("1");
+  const [quiz, setQuiz] = useState<any>();
+  const [isLoading, setLoading] = useState(false);
 
-  const { quiz, status } = useSelector((state: RootState) => state.quiz);
-  if (!quiz.errors && status === "success") {
-    navigate(`/quiz/${key}`);
-  }
-  const handleClick = () => {
-    dispath(getQuizById(key));
+  const handleClick = async () => {
+    setLoading(true);
+    const { data } = await axios.get(`${backendUrl}/quizs/quiz/${key}`);
+    setLoading(false);
+    setQuiz(data);
+    if (!data.errors) {
+      navigate(`/quiz/${key}`);
+    }
   };
 
   return (
@@ -34,7 +35,7 @@ function JoinQuiz() {
             }}
           >
             <label style={{ color: "white" }}>Enter key to join quiz</label>
-            {quiz.errors ? (
+            {quiz?.errors ? (
               <div className="d-flex justify-content-center">
                 <div className="error">{quiz.errors.message}</div>
               </div>
@@ -49,7 +50,7 @@ function JoinQuiz() {
             />
           </div>
           <div onClick={handleClick} className="btn btn-success">
-            {status === "loading" ? <Loader /> : <>Join</>}
+            {isLoading ? <Loader /> : <>Join</>}
           </div>
         </div>
       </div>

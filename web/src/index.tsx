@@ -5,11 +5,12 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
+import { PersistGate } from "redux-persist/integration/react";
 
 import { getAcessToken, getRefreshToken, setAccessToken } from "./utills/utils";
 import { backendUrl } from "./utills/constanst";
 import { Provider } from "react-redux";
-import { store } from "./redux/store";
+import { persistor, store } from "./redux/store";
 
 // Add a request interceptor
 axios.interceptors.request.use(
@@ -59,7 +60,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
     </Provider>
   </React.StrictMode>
 );
